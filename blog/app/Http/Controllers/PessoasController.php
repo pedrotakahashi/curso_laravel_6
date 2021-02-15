@@ -1,33 +1,29 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Pessoas;
 use Illuminate\Http\Request;
-use App\Models\Product;
 
-class ProductController extends Controller
+class PessoasController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    protected $request;
 
-     public function __construct(Request $request){
+    public function __construct(Request $request){
         $this->request = $request; //injeção de dependencia
      }
+
     public function index()
     {
-        //utilizando model Product para recuperar os itens:
 
-        $products = Product::all(); //vai retornar todos os productos por meio da collection e da função all();
-
-        
-
-        return view('admin.pages.products.index', [
-        'products' => $products,
-        ]);
+        $pessoas = Pessoas::all();
+        return view('admin.pages.pessoas.index',[
+            'pessoas' => $pessoas,
+        ]
+    );
     }
 
     /**
@@ -37,8 +33,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-            return view('admin/pages/products/create');
-
+        return view('admin.pages.pessoas.create');
     }
 
     /**
@@ -49,8 +44,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-      
+        $data = $request->all();
+
+        $pessoa = Pessoas::create($data);
+
+        return redirect()->route('pessoas.index');
+
+        
+
     }
 
     /**
@@ -61,14 +62,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-
-        // $product = Product::where('id', $id)->get();
-     $product = Product::find($id);
-     
-        return view('admin.pages.products.show',[
-            'product' => $product,
-        ]
-    );
+        //
     }
 
     /**
@@ -79,7 +73,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.pages.products.edit', compact('id'));
+        //
     }
 
     /**
@@ -91,7 +85,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd("editando produto {$id}");
+        //
     }
 
     /**
